@@ -1,4 +1,29 @@
 
-
 messages:
   title: Ear
+
+menu:
+  elements:
+    - name: element1
+      text: Nowa gra
+    - name: element2
+      text: Zapisz grę
+    - name: element3
+      text: Wczytaj grę
+    - name: settings
+      text: Ustawienia
+      description:
+        title: opis
+        text: To sa ustawienia
+      elements:
+        - name: gfx
+          text: Grafika
+        - name: music
+          text: Muzyka
+          elements:
+            - name: sound-volume
+              text: Głośność muzyki
+            - name: sfx-volume
+              text: Głośność efektów
+    - name: exit
+      text: Wyjście

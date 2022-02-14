@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 @Service
 public class SystemTimer {
-    private static final int DELAY = 1000;
+    private static final int DELAY = 50;
 
     private Timer timer;
 
