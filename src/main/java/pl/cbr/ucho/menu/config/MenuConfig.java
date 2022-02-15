@@ -14,5 +14,27 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "menu")
 public class MenuConfig extends MenuNavigation {
+    int depth = 0;
     private List<Element> elements = new LinkedList<>();
+
+    public void incDepth() {
+        if ( getActualElement().getMarkedElement().getElements().size()>0 ) {
+            depth++;
+        }
+    }
+
+    public void decDepth() {
+        if ( depth>0 ) {
+            depth--;
+        }
+    }
+
+    public MenuNavigation getActualElement() {
+        MenuNavigation element = this;
+        for (int i = depth; i > 0; i--) {
+            element = element.getMarkedElement();
+        }
+        element.init();
+        return element;
+    }
 }

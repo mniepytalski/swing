@@ -25,5 +25,7 @@ menu:
               text: Głośność muzyki
             - name: sfx-volume
               text: Głośność efektów
+        - name: lenguage
+          text: Język
     - name: exit
       text: Wyjście

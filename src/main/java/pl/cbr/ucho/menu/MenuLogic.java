@@ -9,6 +9,7 @@ import pl.cbr.ucho.menu.config.MenuConfig;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Slf4j
@@ -20,28 +21,17 @@ public class MenuLogic extends KeyAdapter {
 
     public void doDrawing(Graphics g) {
         g.setFont(new Font(menuCfg.getFontName(), Font.BOLD, menuCfg.getFontSize()));
-        int i = 0;
-
-        var navigation = menuConfig;
-        var position = menuConfig.getPosition();
-        var elements = menuConfig.getElements();
-        if (menuConfig.getDepth()>0 ) {
-            var element = navigation.getElement();
-            elements = element.getElements();
-            position = element.getPosition();
-        }
-
-//        elements.forEach(e -> print(g, e, position, i++));
-        for (Element elementIt : elements ) {
-            print(g, elementIt, position, i++);
-        }
+        AtomicInteger i = new AtomicInteger();
+        var navigation = (MenuNavigation)menuConfig.getActualElement();
+        var elements = navigation.getElements();
+        g.drawString("depth:"+menuConfig.getDepth()+
+                ",position:"+navigation.getPosition()+
+                ",elements:"+elements.size(), 0, 500);
+        elements.forEach(e -> print(g, e, i.getAndIncrement()));
     }
 
-    void print(Graphics g, Element element, int position, int y) {
-        if ( y==position )
-            g.setColor(Color.BLUE);
-        else
-            g.setColor(Color.BLACK);
+    void print(Graphics g, Element element, int y) {
+        g.setColor(element.isMarked() ? Color.BLUE : Color.BLACK);
         g.drawString(element.getText(), menuCfg.getStartX(), menuCfg.getStartY() + y * g.getFont().getSize());
     }
 }
