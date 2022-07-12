@@ -2,6 +2,10 @@ package pl.cbr.ucho.menu;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import pl.cbr.ucho.menu.config.Element;
+import pl.cbr.ucho.menu.config.MenuConfig;
+import pl.cbr.ucho.menu.config.ValueType;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,9 +15,9 @@ import java.awt.event.KeyEvent;
 public class MenuKeyAdapter extends KeyAdapter {
 
     private final MenuLogic menuLogic;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public void keyPressed(KeyEvent e) {
-//        log.info("keyPressed: {}",e.toString());
         MenuNavigation navigation = menuLogic.getMenuConfig();
         if (menuLogic.getMenuConfig().getDepth()>0) {
             for ( int i=0; i<menuLogic.getMenuConfig().getDepth(); i++) {
@@ -30,13 +34,38 @@ public class MenuKeyAdapter extends KeyAdapter {
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_ENTER:
-                menuLogic.getMenuConfig().incDepth();
+                if ( !menuLogic.getMenuConfig().incDepth() ) {
+                    if ( el.getMarkedElement().getValueType().equals(ValueType.NO_VALUE)) {
+                        sendMessage(el.getName(), el.getMarkedElement().getName());
+                    } else {
+                        changeState(el.getMarkedElement(), e.getKeyCode());
+                    }
+                }
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_ESCAPE:
             case KeyEvent.VK_DELETE:
             case KeyEvent.VK_BACK_SPACE:
                 menuLogic.getMenuConfig().decDepth();
+                break;
+        }
+    }
+
+    private void sendMessage(String origin, String message) {
+        applicationEventPublisher.publishEvent(new MenuMessage(origin, message));
+    }
+
+    private void changeState(Element element, int keyEvent) {
+        switch (element.getValueType() ) {
+            case FLAG:
+                element.getValue().getFlag().invertValue();
+                break;
+            case DIGIT:
+                break;
+            case TEXT:
+                element.getValue().getText().markNextValue();
+                break;
+            case NO_VALUE:
                 break;
         }
     }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import pl.cbr.ucho.menu.MenuNavigation;
 
 import java.util.LinkedList;
@@ -17,9 +18,12 @@ public class MenuConfig extends MenuNavigation {
     int depth = 0;
     private List<Element> elements = new LinkedList<>();
 
-    public void incDepth() {
+    public boolean incDepth() {
         if ( getActualElement().getMarkedElement().getElements().size()>0 ) {
             depth++;
+            return true;
+        } else {
+            return false;
         }
     }
 

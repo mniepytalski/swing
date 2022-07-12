@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.cbr.ucho.menu.MenuNavigation;
 
-import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,19 +15,25 @@ import java.util.List;
 @NoArgsConstructor
 public class Element extends MenuNavigation {
 
-    private String name;
-    private String text;
-//    private State state;
     private Description description;
     private List<Element> elements = new LinkedList<>();
+
+    private ValueConfig value;
 
     @Override
     public List<Element> getElements() {
         return elements;
     }
-//    private Optional<Value> value;
 
     public Element getMarkedElement() {
         return elements.get(getPosition());
+    }
+
+    public ValueType getValueType() {
+        if ( value == null ) {
+            return ValueType.NO_VALUE;
+        } else {
+            return value.getValueType();
+        }
     }
 }

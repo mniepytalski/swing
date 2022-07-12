@@ -11,6 +11,9 @@ public abstract class MenuNavigation {
     int position = 0;
     boolean marked = false;
 
+    String name;
+    String text;
+
     @PostConstruct
     public synchronized void init() {
         actualizePosition();
@@ -37,7 +40,7 @@ public abstract class MenuNavigation {
     public abstract List<Element> getElements();
 
     private void actualizePosition() {
-        getElements().stream().forEach(e -> e.setMarked(false));
+        getElements().forEach(e -> e.setMarked(false));
         getMarkedElement().setMarked(true);
     }
 

@@ -11,7 +11,7 @@ import javax.swing.*;
 @SpringBootApplication
 public class Application {
 
-    private final Board board;
+    private final GameContainer board;
     private final Messages messages;
 
     @Bean

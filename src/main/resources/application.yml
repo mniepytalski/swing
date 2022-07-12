@@ -3,12 +3,13 @@ messages:
   title: Ear
 
 menu:
+  name: main
   elements:
-    - name: element1
+    - name: new-game
       text: Nowa gra
-    - name: element2
+    - name: save-game
       text: Zapisz grę
-    - name: element3
+    - name: load-game
       text: Wczytaj grę
     - name: settings
       text: Ustawienia
@@ -18,14 +19,38 @@ menu:
       elements:
         - name: gfx
           text: Grafika
+          elements:
+            - name: full-screen
+              text: Full Screen
+              value:
+                flag:
+                  actual: false
         - name: music
           text: Muzyka
           elements:
             - name: sound-volume
               text: Głośność muzyki
+              value:
+                digit:
+                  actual: 50
+                  min: 0
+                  max: 100
             - name: sfx-volume
               text: Głośność efektów
-        - name: lenguage
+              value:
+                digit:
+                  actual: 50
+                  min: 0
+                  max: 100
+        - name: change-lenguage
           text: Język
+          value:
+            text:
+              actual: eng
+              list:
+              - name: pol
+                text: Polski
+              - name: eng
+                text: English
     - name: exit
       text: Wyjście
