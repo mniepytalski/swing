@@ -8,21 +8,21 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
-public class ValueText {
+public class ValueTextConfig {
     String actual;
-    List<ValueTextElement> list = new ArrayList<>();
+    List<ValueTextElementConfig> list = new ArrayList<>();
 
     public String printInfo() {
-        Map<String, String> map = list.stream().collect(Collectors.toMap(ValueTextElement::getName, ValueTextElement::getText));
-        return "actual:"+map.get(actual)+", all:"+list.stream().map(ValueTextElement::getText).collect(Collectors.joining(","));
+        Map<String, String> map = list.stream().collect(Collectors.toMap(ValueTextElementConfig::getName, ValueTextElementConfig::getText));
+        return "actual:"+map.get(actual)+", all:"+list.stream().map(ValueTextElementConfig::getText).collect(Collectors.joining(","));
     }
 
     public List<String> getAllTexts() {
-        return list.stream().map(ValueTextElement::getText).collect(Collectors.toList());
+        return list.stream().map(ValueTextElementConfig::getText).collect(Collectors.toList());
     }
 
     public String getActualText() {
-        Map<String, String> map = list.stream().collect(Collectors.toMap(ValueTextElement::getName, ValueTextElement::getText));
+        Map<String, String> map = list.stream().collect(Collectors.toMap(ValueTextElementConfig::getName, ValueTextElementConfig::getText));
         return map.get(actual);
     }
 
@@ -40,7 +40,7 @@ public class ValueText {
 
     private int getPosition() {
         int i=0;
-        for ( ValueTextElement valueTextElement : list) {
+        for ( ValueTextElementConfig valueTextElement : list) {
             if ( valueTextElement.getName().equals(actual)) {
                 return i;
             }

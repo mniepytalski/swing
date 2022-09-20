@@ -1,4 +1,4 @@
-package pl.cbr.ucho.menu.object3d;
+package pl.cbr.ucho.object3d;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

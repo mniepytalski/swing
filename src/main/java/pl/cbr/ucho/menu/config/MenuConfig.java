@@ -4,11 +4,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import pl.cbr.ucho.menu.MenuNavigation;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+
+/**
+ * TODO
+ * rozdzielic wczytywane strukture i logike
+ */
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -16,7 +21,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "menu")
 public class MenuConfig extends MenuNavigation {
     int depth = 0;
-    private List<Element> elements = new LinkedList<>();
+    private List<ElementConfig> elements = new LinkedList<>();
 
     public boolean incDepth() {
         if ( getActualElement().getMarkedElement().getElements().size()>0 ) {
@@ -40,5 +45,20 @@ public class MenuConfig extends MenuNavigation {
         }
         element.init();
         return element;
+    }
+
+    public Optional<ElementConfig> getActualElementTest() {
+        ElementConfig element = null;
+        for (int i = depth; i > 0; i--) {
+            if ( element == null ) {
+                return Optional.empty();
+            }
+            element = element.getMarkedElement();
+        }
+        if ( element == null ) {
+            return Optional.empty();
+        }
+        element.init();
+        return Optional.of(element);
     }
 }

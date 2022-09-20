@@ -1,4 +1,4 @@
-package pl.cbr.ucho.menu.value;
+package pl.cbr.ucho.menu.model.value;
 
 public class ValueDigit extends MenuValue<Integer> {
     private Integer minimum;

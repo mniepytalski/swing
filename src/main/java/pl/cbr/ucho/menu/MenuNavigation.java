@@ -1,18 +1,18 @@
 package pl.cbr.ucho.menu;
 
 import lombok.Data;
-import pl.cbr.ucho.menu.config.Element;
+import pl.cbr.ucho.menu.config.ElementConfig;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Data
 public abstract class MenuNavigation {
-    int position = 0;
-    boolean marked = false;
+    private int position = 0;
+    private boolean marked = false;
 
-    String name;
-    String text;
+    private String name;
+    private String text;
 
     @PostConstruct
     public synchronized void init() {
@@ -33,15 +33,14 @@ public abstract class MenuNavigation {
         }
     }
 
-    public Element getMarkedElement() {
+    public ElementConfig getMarkedElement() {
         return getElements().get(getPosition());
     }
 
-    public abstract List<Element> getElements();
+    public abstract List<ElementConfig> getElements();
 
     private void actualizePosition() {
         getElements().forEach(e -> e.setMarked(false));
         getMarkedElement().setMarked(true);
     }
-
 }

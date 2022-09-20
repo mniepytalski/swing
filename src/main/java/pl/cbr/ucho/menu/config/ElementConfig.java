@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.cbr.ucho.menu.MenuNavigation;
+import pl.cbr.ucho.menu.model.ElementState;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,19 +14,21 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Element extends MenuNavigation {
+public class ElementConfig extends MenuNavigation {
 
-    private Description description;
-    private List<Element> elements = new LinkedList<>();
+    private DescriptionConfig descriptionConfig;
+    private List<ElementConfig> elements = new LinkedList<>();
 
     private ValueConfig value;
 
+    private ElementState elementState = new ElementState();
+
     @Override
-    public List<Element> getElements() {
+    public List<ElementConfig> getElements() {
         return elements;
     }
 
-    public Element getMarkedElement() {
+    public ElementConfig getMarkedElement() {
         return elements.get(getPosition());
     }
 
@@ -35,5 +38,9 @@ public class Element extends MenuNavigation {
         } else {
             return value.getValueType();
         }
+    }
+
+    public ElementState getElementActualState() {
+        return elementState;
     }
 }

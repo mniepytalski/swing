@@ -3,7 +3,7 @@ package pl.cbr.ucho.menu.config;
 import lombok.Data;
 
 @Data
-public class Description {
-    private String title;
+public class ValueTextElementConfig {
+    private String name;
     private String text;
 }

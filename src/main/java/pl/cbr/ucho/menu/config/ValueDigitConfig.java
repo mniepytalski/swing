@@ -3,7 +3,7 @@ package pl.cbr.ucho.menu.config;
 import lombok.Data;
 
 @Data
-public class ValueDigit {
+public class ValueDigitConfig {
     int actual;
     int min;
     int max;
