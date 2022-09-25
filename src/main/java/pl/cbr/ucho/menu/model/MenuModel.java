@@ -2,7 +2,6 @@ package pl.cbr.ucho.menu.model;
 
 import lombok.Data;
 import org.springframework.stereotype.Service;
-import pl.cbr.ucho.menu.MenuNavigation;
 import pl.cbr.ucho.menu.config.ElementConfig;
 import pl.cbr.ucho.menu.config.MenuConfig;
 
@@ -10,7 +9,6 @@ import pl.cbr.ucho.menu.config.MenuConfig;
 @Data
 public class MenuModel {
     private MenuConfig menuConfig;
-
     private ElementConfig element;
 
     private int depth = 0;
@@ -19,8 +17,6 @@ public class MenuModel {
         this.menuConfig = menuConfig;
         this.element = menuConfig;
     }
-
-
 
     public boolean incDepth() {
         if ( element.getMarkedElement().isEmpty()) {
@@ -38,15 +34,6 @@ public class MenuModel {
         if ( depth>0 ) {
             depth--;
         }
-    }
-
-    public MenuNavigation getActualElement() {
-//        for (int i = depth; i > 0; i--) {
-//            element = element.getMarkedElement();
-//        }
-//        element.init();
-//        return element;
-        return null;
     }
 
     public ElementConfig getActualElementConfig() {

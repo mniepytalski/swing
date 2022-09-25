@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.cbr.ucho.menu.config.ElementConfig;
+import pl.cbr.ucho.menu.config.ElementType;
 import pl.cbr.ucho.menu.model.MenuModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,16 +21,27 @@ public class MenuKeyAdapter extends KeyAdapter {
     private ApplicationEventPublisher applicationEventPublisher;
 
     public void keyPressed(KeyEvent e) {
+        ElementConfig element = menuModel.getActualElementConfig();
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                menuModel.getActualElementConfig().decMarkedPosition();
+                element.decMarkedPosition();
                 break;
             case KeyEvent.VK_DOWN:
-                menuModel.getActualElementConfig().intMarkedPosition();
+                element.intMarkedPosition();
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_ENTER:
-                menuModel.incDepth();
+                if ( !menuModel.incDepth() ) {
+                    Optional<ElementConfig> navigation = element.getMarkedElement();
+                    if ( navigation.isPresent() ) {
+                        ElementConfig el = navigation.get();
+                        if (el.getValueType().equals(ElementType.NO_VALUE)) {
+                            sendMessage(el.getName(), el.getName());
+                        } else {
+                            changeState(el, e.getKeyCode());
+                        }
+                    }
+                }
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_ESCAPE:
@@ -37,46 +50,6 @@ public class MenuKeyAdapter extends KeyAdapter {
                 menuModel.decDepth();
                 break;
         }
-
-/*
-
-        MenuNavigation navigation = menuModel.getMenuConfig();
-        if (menuModel.getMenuConfig().getDepth()>0) {
-            for ( int i=0; i<menuModel.getMenuConfig().getDepth(); i++) {
-             //   navigation = navigation.getMarkedElement();
-            }
-        }
-        MenuNavigation el = menuModel.getMenuConfig().getActualElement();
-        var element = menuModel.getMenuConfig().getActualElementTest();
-        if ( element.isPresent() ) {
-            ElementConfig ec = element.get();
-            ec.getElementActualState();
-        }
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                navigation.decPosition();
-                break;
-            case KeyEvent.VK_DOWN:
-                navigation.incPosition();
-                break;
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_ENTER:
-                if ( !menuModel.getMenuConfig().incDepth() ) {
-                    if ( el.getMarkedElement().getValueType().equals(ElementType.NO_VALUE)) {
-                 //       sendMessage(el.getName(), el.getMarkedElement().getName());
-                    } else {
-                        changeState(el.getMarkedElement(), e.getKeyCode());
-                    }
-                }
-                break;
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_ESCAPE:
-            case KeyEvent.VK_DELETE:
-            case KeyEvent.VK_BACK_SPACE:
-                menuModel.getMenuConfig().decDepth();
-                break;
-        }
-*/
     }
 
     private void sendMessage(String origin, String message) {
@@ -84,17 +57,16 @@ public class MenuKeyAdapter extends KeyAdapter {
     }
 
     private void changeState(ElementConfig element, int keyEvent) {
-//        switch (element.getValueType() ) {
-//            case FLAG:
-//                element.getValue().getFlag().invertValue();
-//                break;
-//            case DIGIT:
-//                break;
-//            case TEXT:
-//                element.getValue().getText().markNextValue();
-//                break;
-//            case NO_VALUE:
-//                break;
-//        }
+        switch (element.getValueType() ) {
+            case FLAG:
+                element.getValue().getFlag().invertValue();
+                break;
+            case DIGIT:
+            case NO_VALUE:
+                break;
+            case TEXT:
+                element.getValue().getText().markNextValue();
+                break;
+        }
     }
 }
