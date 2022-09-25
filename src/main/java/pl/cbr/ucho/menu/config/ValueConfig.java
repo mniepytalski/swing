@@ -8,13 +8,13 @@ public class ValueConfig {
     ValueDigitConfig digit;
     ValueTextConfig text;
 
-    public ValueType getValueType() {
+    public ElementType getValueType() {
         if ( flag != null)
-            return ValueType.FLAG;
+            return ElementType.FLAG;
         if ( digit != null)
-            return ValueType.DIGIT;
+            return ElementType.DIGIT;
         if ( text != null)
-            return ValueType.TEXT;
-        return ValueType.NO_VALUE;
+            return ElementType.TEXT;
+        return ElementType.NO_VALUE;
     }
 }

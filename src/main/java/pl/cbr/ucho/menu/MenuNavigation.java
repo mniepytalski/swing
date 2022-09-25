@@ -34,13 +34,14 @@ public abstract class MenuNavigation {
     }
 
     public ElementConfig getMarkedElement() {
-        return getElements().get(getPosition());
+        // return getElements().get(getMarkedPosition());
+        return null;
     }
 
     public abstract List<ElementConfig> getElements();
 
     private void actualizePosition() {
-        getElements().forEach(e -> e.setMarked(false));
-        getMarkedElement().setMarked(true);
+        // getElements().forEach(e -> e.setMarked(false));
+        // getMarkedElement().setMarked(true);
     }
 }

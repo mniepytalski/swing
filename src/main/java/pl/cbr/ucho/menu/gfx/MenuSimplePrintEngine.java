@@ -18,19 +18,20 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
     public void doDrawing(Graphics g, MenuModel menuModel) {
         g.setFont(new Font(menuCfg.getFontName(), Font.BOLD, menuCfg.getFontSize()));
         AtomicInteger i = new AtomicInteger();
-        menuModel.getMenuConfig().getActualElement().getElements().forEach(e -> print(g, e, i.getAndIncrement()));
+        menuModel.getActualElementConfig().actualizePosition();
+        menuModel.getActualElementConfig().getElements().forEach(e -> print(g, e, i.getAndIncrement()));
     }
 
     private void print(Graphics g, ElementConfig element, int y) {
         g.setColor(element.isMarked() ? Color.BLUE : Color.BLACK);
         g.drawString(element.getText(), menuCfg.getStartX(), menuCfg.getStartY() + y * g.getFont().getSize());
-        if ( element.getValueType() == ValueType.FLAG ) {
+        if ( element.getValueType() == ElementType.FLAG ) {
             printFlag(g, element, y);
         }
-        if ( element.getValueType() == ValueType.DIGIT ) {
+        if ( element.getValueType() == ElementType.DIGIT ) {
             printDigit(g, element, y);
         }
-        if ( element.getValueType() == ValueType.TEXT ) {
+        if ( element.getValueType() == ElementType.TEXT ) {
             printText(g, element, y);
         }
     }
