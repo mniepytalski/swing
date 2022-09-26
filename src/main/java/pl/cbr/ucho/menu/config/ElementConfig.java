@@ -22,7 +22,11 @@ public class ElementConfig extends Element {
     private String name;
     private String text;
 
-    private Element elementState = new Element();
+//    private Element elementState = new Element();
+
+    public void init() {
+        setElementType(getValueType());
+    }
 
     public ElementType getValueType() {
         if ( value == null ) {
@@ -30,10 +34,6 @@ public class ElementConfig extends Element {
         } else {
             return value.getValueType();
         }
-    }
-
-    public Element getElementActualState() {
-        return elementState;
     }
 
     public Optional<ElementConfig> getMarkedElement() {
@@ -45,7 +45,10 @@ public class ElementConfig extends Element {
     }
 
     public void actualizePosition() {
-        getElements().forEach(e -> e.setMarked(false));
+        getElements().forEach(e -> {
+            e.init();
+            e.setMarked(false);
+        });
         getMarkedElement().ifPresent(e -> e.setMarked(true));
     }
 

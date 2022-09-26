@@ -48,8 +48,8 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
 
     private void printDigit(Graphics g, ElementConfig element, int y) {
         ValueDigitConfig valueDigit = element.getValue().getDigit();
-        if ( element.getElementState().getNavigationMode() != null &&
-                element.getElementState().getNavigationMode() == NavigationMode.EDIT) {
+        if ( element.getNavigationMode() != null &&
+                element.getNavigationMode() == NavigationMode.EDIT) {
             g.setColor(Color.YELLOW);
         }
         g.drawString(valueDigit.printInfo(), menuCfg.getStartX() + menuCfg.getOffsetX(),

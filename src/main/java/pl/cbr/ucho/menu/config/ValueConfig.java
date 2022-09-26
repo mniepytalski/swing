@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ValueConfig {
-    ValueFlagConfig flag;
-    ValueDigitConfig digit;
-    ValueTextConfig text;
+    private ValueFlagConfig flag;
+    private ValueDigitConfig digit;
+    private ValueTextConfig text;
 
     public ElementType getValueType() {
         if ( flag != null)
