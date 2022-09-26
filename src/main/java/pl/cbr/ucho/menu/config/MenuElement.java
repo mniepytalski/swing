@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import pl.cbr.ucho.menu.model.Element;
+import pl.cbr.ucho.menu.model.ElementModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,15 +14,13 @@ import java.util.Optional;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ElementConfig extends Element {
+public class MenuElement extends ElementModel {
 
     private DescriptionConfig descriptionConfig;
-    private List<ElementConfig> elements = new LinkedList<>();
+    private List<MenuElement> elements = new LinkedList<>();
     private ValueConfig value;
     private String name;
     private String text;
-
-//    private Element elementState = new Element();
 
     public void init() {
         setElementType(getValueType());
@@ -36,7 +34,7 @@ public class ElementConfig extends Element {
         }
     }
 
-    public Optional<ElementConfig> getMarkedElement() {
+    public Optional<MenuElement> getMarkedElement() {
         if ( getMarkedPosition()>=elements.size()) {
             return Optional.empty();
         } else {

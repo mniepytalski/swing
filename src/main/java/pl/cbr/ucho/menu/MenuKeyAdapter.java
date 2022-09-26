@@ -3,7 +3,7 @@ package pl.cbr.ucho.menu;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.cbr.ucho.menu.config.ElementConfig;
+import pl.cbr.ucho.menu.config.MenuElement;
 import pl.cbr.ucho.menu.model.MenuModel;
 
 import java.awt.event.KeyAdapter;
@@ -13,11 +13,10 @@ import java.awt.event.KeyEvent;
 @Service
 @AllArgsConstructor
 public class MenuKeyAdapter extends KeyAdapter {
-
     private final MenuModel menuModel;
 
     public void keyPressed(KeyEvent e) {
-        ElementConfig element = menuModel.getActualElementConfig();
+        MenuElement element = menuModel.getActualParentElement();
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 element.decMarkedPosition();

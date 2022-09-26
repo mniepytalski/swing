@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.cbr.ucho.menu.MenuMessage;
-import pl.cbr.ucho.menu.config.ElementConfig;
+import pl.cbr.ucho.menu.config.MenuElement;
 import pl.cbr.ucho.menu.config.ElementType;
 import pl.cbr.ucho.menu.config.MenuConfig;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Data
 public class MenuModel {
     private MenuConfig menuConfig;
-    private ElementConfig element;
+    private MenuElement element;
     private ApplicationEventPublisher applicationEventPublisher;
 
     private int depth = 0;
@@ -26,7 +26,7 @@ public class MenuModel {
     }
 
     public boolean incDepth() {
-        Optional<ElementConfig> e = getActualElementConfig().getMarkedElement();
+        Optional<MenuElement> e = getActualParentElement().getMarkedElement();
         if (e.isEmpty()) {
             return false;
         }
@@ -45,8 +45,8 @@ public class MenuModel {
         }
     }
 
-    public ElementConfig getActualElementConfig() {
-        ElementConfig actualElement = element;
+    public MenuElement getActualParentElement() {
+        MenuElement actualElement = element;
         for (int i = 0; i < depth; i++) {
             if (actualElement.getMarkedElement().isEmpty()) {
                 break;
@@ -56,10 +56,15 @@ public class MenuModel {
         return actualElement;
     }
 
+    public MenuElement getActualMarkedElement() {
+        MenuElement parent = getActualParentElement();
+        return parent.getMarkedElement().orElse(parent);
+    }
+
     private void incDepthAction() {
-        Optional<ElementConfig> navigation = getActualElementConfig().getMarkedElement();
+        Optional<MenuElement> navigation = getActualParentElement().getMarkedElement();
         if (navigation.isPresent()) {
-            ElementConfig el = navigation.get();
+            MenuElement el = navigation.get();
             if (el.getValueType().equals(ElementType.NO_VALUE)) {
                 sendMessage(el.getName(), el.getName());
             } else {
@@ -72,7 +77,7 @@ public class MenuModel {
         applicationEventPublisher.publishEvent(new MenuMessage(origin, message));
     }
 
-    private void changeState(ElementConfig element) {
+    private void changeState(MenuElement element) {
         switch (element.getValueType()) {
             case FLAG:
                 element.getValue().getFlag().invertValue();

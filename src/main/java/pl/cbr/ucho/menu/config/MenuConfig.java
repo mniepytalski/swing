@@ -9,5 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @EqualsAndHashCode(callSuper = true)
 @Configuration
 @ConfigurationProperties(prefix = "menu")
-public class MenuConfig extends ElementConfig {
+public class MenuConfig extends MenuElement {
 }
