@@ -18,6 +18,8 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
     public void doDrawing(Graphics g, MenuModel menuModel) {
         g.setFont(new Font(menuCfg.getFontName(), Font.BOLD, menuCfg.getFontSize()));
         AtomicInteger i = new AtomicInteger();
+        g.setColor(Color.DARK_GRAY);
+        g.drawString("depth:"+menuModel.getDepth(),menuCfg.getStartX(), 300);
         menuModel.getActualElementConfig().actualizePosition();
         menuModel.getActualElementConfig().getElements().forEach(e -> print(g, e, i.getAndIncrement()));
     }

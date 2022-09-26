@@ -26,10 +26,11 @@ public class MenuModel {
     }
 
     public boolean incDepth() {
-        if (element.getMarkedElement().isEmpty()) {
+        Optional<ElementConfig> e = getActualElementConfig().getMarkedElement();
+        if (e.isEmpty()) {
             return false;
         }
-        if (element.getMarkedElement().get().getElements().size() > 0) {
+        if (e.get().getElements().size() > 0) {
             depth++;
             return true;
         } else {
@@ -47,16 +48,16 @@ public class MenuModel {
     public ElementConfig getActualElementConfig() {
         ElementConfig actualElement = element;
         for (int i = 0; i < depth; i++) {
-            if (element.getMarkedElement().isEmpty()) {
+            if (actualElement.getMarkedElement().isEmpty()) {
                 break;
             }
-            actualElement = element.getMarkedElement().get();
+            actualElement = actualElement.getMarkedElement().get();
         }
         return actualElement;
     }
 
     private void incDepthAction() {
-        Optional<ElementConfig> navigation = element.getMarkedElement();
+        Optional<ElementConfig> navigation = getActualElementConfig().getMarkedElement();
         if (navigation.isPresent()) {
             ElementConfig el = navigation.get();
             if (el.getValueType().equals(ElementType.NO_VALUE)) {
