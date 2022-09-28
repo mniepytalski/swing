@@ -34,6 +34,9 @@ public class MenuModel {
             depth++;
             return true;
         } else {
+            if ( e.get().getElementType()==ElementType.DIGIT ) {
+                e.get().changeNavigationMode();
+            }
             incDepthAction();
             return false;
         }

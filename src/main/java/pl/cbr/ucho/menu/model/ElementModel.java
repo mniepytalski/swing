@@ -12,4 +12,12 @@ public class ElementModel {
     private NavigationMode      navigationMode  = NavigationMode.NAVIGATION;
     private ElementType         elementType     = ElementType.NO_VALUE;
 
+    public void changeNavigationMode() {
+        if ( getNavigationMode()==NavigationMode.NAVIGATION ) {
+            navigationMode = NavigationMode.EDIT;
+        } else {
+            navigationMode = NavigationMode.NAVIGATION;
+        }
+    }
+
 }

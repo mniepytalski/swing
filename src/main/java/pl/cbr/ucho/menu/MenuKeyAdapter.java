@@ -3,8 +3,10 @@ package pl.cbr.ucho.menu;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.cbr.ucho.menu.config.ElementType;
 import pl.cbr.ucho.menu.config.MenuElement;
 import pl.cbr.ucho.menu.model.MenuModel;
+import pl.cbr.ucho.menu.model.NavigationMode;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -17,12 +19,25 @@ public class MenuKeyAdapter extends KeyAdapter {
 
     public void keyPressed(KeyEvent e) {
         MenuElement element = menuModel.getActualParentElement();
+        MenuElement child  = menuModel.getActualMarkedElement();
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                element.decMarkedPosition();
+                if (child.getNavigationMode()==NavigationMode.EDIT) {
+                    if ( child.getElementType()==ElementType.DIGIT ) {
+                        child.getValue().getDigit().intValue();
+                    }
+                } else {
+                    element.decMarkedPosition();
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                element.intMarkedPosition();
+                if (child.getNavigationMode()== NavigationMode.EDIT) {
+                    if ( child.getElementType()==ElementType.DIGIT ) {
+                        child.getValue().getDigit().decValue();
+                    }
+                } else {
+                    element.intMarkedPosition();
+                }
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_ENTER:
@@ -32,6 +47,9 @@ public class MenuKeyAdapter extends KeyAdapter {
             case KeyEvent.VK_ESCAPE:
             case KeyEvent.VK_DELETE:
             case KeyEvent.VK_BACK_SPACE:
+                if ( child.getNavigationMode()==NavigationMode.EDIT ) {
+                    child.changeNavigationMode();
+                }
                 menuModel.decDepth();
                 break;
         }

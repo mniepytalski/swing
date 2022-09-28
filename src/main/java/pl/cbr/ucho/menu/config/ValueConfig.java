@@ -17,4 +17,6 @@ public class ValueConfig {
             return ElementType.TEXT;
         return ElementType.NO_VALUE;
     }
+
+
 }

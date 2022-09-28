@@ -25,7 +25,11 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
     }
 
     private void print(Graphics g, MenuElement element, int y) {
-        g.setColor(element.isMarked() ? Color.BLUE : Color.BLACK);
+        if ( element.getNavigationMode()==NavigationMode.EDIT ) {
+            g.setColor(Color.BLACK);
+        } else {
+            g.setColor(element.isMarked() ? Color.BLUE : Color.BLACK);
+        }
         g.drawString(element.getText(), menuCfg.getStartX(), menuCfg.getStartY() + y * g.getFont().getSize());
         switch(element.getElementType()) {
             case FLAG:
@@ -54,7 +58,7 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
         ValueDigitConfig valueDigit = element.getValue().getDigit();
         if ( element.getNavigationMode() != null &&
                 element.getNavigationMode() == NavigationMode.EDIT) {
-            g.setColor(Color.YELLOW);
+            g.setColor(Color.BLUE);
         }
         g.drawString(valueDigit.printInfo(), menuCfg.getStartX() + menuCfg.getOffsetX(),
                 menuCfg.getStartY() + y * g.getFont().getSize());
