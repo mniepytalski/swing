@@ -1,5 +1,5 @@
 package pl.cbr.ucho.menu.config;
 
-public enum ValueType {
+public enum ElementType {
     FLAG, DIGIT, TEXT, NO_VALUE
 }

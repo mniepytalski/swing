@@ -2,11 +2,11 @@ package pl.cbr.ucho.menu;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import pl.cbr.ucho.menu.config.ElementConfig;
-import pl.cbr.ucho.menu.config.ValueType;
+import pl.cbr.ucho.menu.config.ElementType;
+import pl.cbr.ucho.menu.config.MenuElement;
 import pl.cbr.ucho.menu.model.MenuModel;
+import pl.cbr.ucho.menu.model.NavigationMode;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,60 +15,42 @@ import java.awt.event.KeyEvent;
 @Service
 @AllArgsConstructor
 public class MenuKeyAdapter extends KeyAdapter {
-
     private final MenuModel menuModel;
-    private ApplicationEventPublisher applicationEventPublisher;
 
     public void keyPressed(KeyEvent e) {
-        MenuNavigation navigation = menuModel.getMenuConfig();
-        if (menuModel.getMenuConfig().getDepth()>0) {
-            for ( int i=0; i<menuModel.getMenuConfig().getDepth(); i++) {
-                navigation = navigation.getMarkedElement();
-            }
-        }
-        MenuNavigation el = menuModel.getMenuConfig().getActualElement();
-        var element = menuModel.getMenuConfig().getActualElementTest();
+        MenuElement element = menuModel.getActualParentElement();
+        MenuElement child  = menuModel.getActualMarkedElement();
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                navigation.decPosition();
+                if (child.getNavigationMode()==NavigationMode.EDIT) {
+                    if ( child.getElementType()==ElementType.DIGIT ) {
+                        child.getValue().getDigit().intValue();
+                    }
+                } else {
+                    element.decMarkedPosition();
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                navigation.incPosition();
+                if (child.getNavigationMode()== NavigationMode.EDIT) {
+                    if ( child.getElementType()==ElementType.DIGIT ) {
+                        child.getValue().getDigit().decValue();
+                    }
+                } else {
+                    element.intMarkedPosition();
+                }
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_ENTER:
-                if ( !menuModel.getMenuConfig().incDepth() ) {
-                    if ( el.getMarkedElement().getValueType().equals(ValueType.NO_VALUE)) {
-                        sendMessage(el.getName(), el.getMarkedElement().getName());
-                    } else {
-                        changeState(el.getMarkedElement(), e.getKeyCode());
-                    }
-                }
+                menuModel.incDepth();
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_ESCAPE:
             case KeyEvent.VK_DELETE:
             case KeyEvent.VK_BACK_SPACE:
-                menuModel.getMenuConfig().decDepth();
-                break;
-        }
-    }
-
-    private void sendMessage(String origin, String message) {
-        applicationEventPublisher.publishEvent(new MenuMessage(origin, message));
-    }
-
-    private void changeState(ElementConfig element, int keyEvent) {
-        switch (element.getValueType() ) {
-            case FLAG:
-                element.getValue().getFlag().invertValue();
-                break;
-            case DIGIT:
-                break;
-            case TEXT:
-                element.getValue().getText().markNextValue();
-                break;
-            case NO_VALUE:
+                if ( child.getNavigationMode()==NavigationMode.EDIT ) {
+                    child.changeNavigationMode();
+                }
+                menuModel.decDepth();
                 break;
         }
     }

@@ -18,24 +18,33 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
     public void doDrawing(Graphics g, MenuModel menuModel) {
         g.setFont(new Font(menuCfg.getFontName(), Font.BOLD, menuCfg.getFontSize()));
         AtomicInteger i = new AtomicInteger();
-        menuModel.getMenuConfig().getActualElement().getElements().forEach(e -> print(g, e, i.getAndIncrement()));
+        g.setColor(Color.DARK_GRAY);
+        g.drawString("depth:"+menuModel.getDepth(),menuCfg.getStartX(), 300);
+        menuModel.getActualParentElement().actualizePosition();
+        menuModel.getActualParentElement().getElements().forEach(e -> print(g, e, i.getAndIncrement()));
     }
 
-    private void print(Graphics g, ElementConfig element, int y) {
-        g.setColor(element.isMarked() ? Color.BLUE : Color.BLACK);
+    private void print(Graphics g, MenuElement element, int y) {
+        if ( element.getNavigationMode()==NavigationMode.EDIT ) {
+            g.setColor(Color.BLACK);
+        } else {
+            g.setColor(element.isMarked() ? Color.BLUE : Color.BLACK);
+        }
         g.drawString(element.getText(), menuCfg.getStartX(), menuCfg.getStartY() + y * g.getFont().getSize());
-        if ( element.getValueType() == ValueType.FLAG ) {
-            printFlag(g, element, y);
-        }
-        if ( element.getValueType() == ValueType.DIGIT ) {
-            printDigit(g, element, y);
-        }
-        if ( element.getValueType() == ValueType.TEXT ) {
-            printText(g, element, y);
+        switch(element.getElementType()) {
+            case FLAG:
+                printFlag(g, element, y);
+                break;
+            case DIGIT:
+                printDigit(g, element, y);
+                break;
+            case TEXT:
+                printText(g, element, y);
+                break;
         }
     }
 
-    private void printFlag(Graphics g, ElementConfig element, int y) {
+    private void printFlag(Graphics g, MenuElement element, int y) {
         if ( element.getValue().getFlag().isActual() ) {
             g.fillRect(menuCfg.getStartX() + menuCfg.getOffsetX(), menuCfg.getStartY() + (y - 1) * g.getFont().getSize(),
                     menuCfg.getFontSize(), menuCfg.getFontSize());
@@ -45,17 +54,17 @@ public class MenuSimplePrintEngine implements MenuPrintEngine {
         }
     }
 
-    private void printDigit(Graphics g, ElementConfig element, int y) {
+    private void printDigit(Graphics g, MenuElement element, int y) {
         ValueDigitConfig valueDigit = element.getValue().getDigit();
-        if ( element.getElementState().getNavigationMode() != null &&
-                element.getElementState().getNavigationMode() == NavigationMode.EDIT) {
-            g.setColor(Color.YELLOW);
+        if ( element.getNavigationMode() != null &&
+                element.getNavigationMode() == NavigationMode.EDIT) {
+            g.setColor(Color.BLUE);
         }
         g.drawString(valueDigit.printInfo(), menuCfg.getStartX() + menuCfg.getOffsetX(),
                 menuCfg.getStartY() + y * g.getFont().getSize());
     }
 
-    private void printText(Graphics g, ElementConfig element, int y) {
+    private void printText(Graphics g, MenuElement element, int y) {
         ValueTextConfig valueText = element.getValue().getText();
         StringBuilder info = new StringBuilder();
         String markedText = valueText.getActualText();

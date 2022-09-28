@@ -11,4 +11,16 @@ public class ValueDigitConfig {
     public String printInfo() {
         return "min:"+min+",actual:"+actual+",max:"+max;
     }
+
+    public void intValue() {
+        if ( actual<max ) {
+            actual++;
+        }
+    }
+
+    public void decValue() {
+        if ( actual>min ) {
+            actual--;
+        }
+    }
 }

@@ -42,7 +42,7 @@ public class GameContainer extends JPanel implements ActionListener, Drawing, Ap
 //        addKeyListener(new GameKeyAdapter());
         systemTimer.init(this);
         systemTimer.start();
-        addKeyListener(new MenuKeyAdapter(gameMenu.getMenuModel(), applicationEventPublisher));
+        addKeyListener(new MenuKeyAdapter(gameMenu.getMenuModel()));
     }
 
     @Override
@@ -69,6 +69,7 @@ public class GameContainer extends JPanel implements ActionListener, Drawing, Ap
         this.event = event;
         log.info("message: {}", event);
         if ("exit".equals(event.getMessage())) {
+            gameMenu.save();
             setVisible(false);
             System.exit(0);
         }
