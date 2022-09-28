@@ -7,6 +7,8 @@ import pl.cbr.ucho.menu.config.ElementType;
 @Data
 @NoArgsConstructor
 public class ElementModel {
+
+    private String              id;
     private int                 markedPosition  = 0;
     private boolean             marked          = false;
     private NavigationMode      navigationMode  = NavigationMode.NAVIGATION;

@@ -22,8 +22,14 @@ public class MenuElement extends ElementModel {
     private String name;
     private String text;
 
-    public void init() {
+    public void init(String parentName) {
         setElementType(getValueType());
+        actualizePosition();
+        generateId(parentName);
+    }
+
+    private void generateId(String parentName) {
+        super.setId(getName() + "." + parentName);
     }
 
     public ElementType getValueType() {
@@ -43,10 +49,7 @@ public class MenuElement extends ElementModel {
     }
 
     public void actualizePosition() {
-        getElements().forEach(e -> {
-            e.init();
-            e.setMarked(false);
-        });
+        getElements().forEach(e -> e.setMarked(false));
         getMarkedElement().ifPresent(e -> e.setMarked(true));
     }
 

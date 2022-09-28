@@ -8,7 +8,7 @@ import pl.cbr.ucho.menu.config.MenuElement;
 import pl.cbr.ucho.menu.config.ElementType;
 import pl.cbr.ucho.menu.config.MenuConfig;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Data
@@ -17,12 +17,33 @@ public class MenuModel {
     private MenuElement element;
     private ApplicationEventPublisher applicationEventPublisher;
 
+    private Set<String> test = new HashSet<>();
     private int depth = 0;
 
     public MenuModel(MenuConfig menuConfig, ApplicationEventPublisher applicationEventPublisher) {
         this.menuConfig = menuConfig;
         this.element = menuConfig;
         this.applicationEventPublisher = applicationEventPublisher;
+        initMenu(element,"menu");
+    }
+
+    public Map<String,String> saveMenuParameters() {
+        Map<String, String> params = new HashMap<>();
+        prepareParameter(menuConfig, params);
+        return params;
+    }
+
+    private void prepareParameter(MenuElement element, Map<String, String> params) {
+        if (element.getElementType()!=ElementType.NO_VALUE) {
+            params.put(element.getId(), element.getValue().toString());
+        }
+        element.getElements().forEach(e -> prepareParameter(e, params));
+    }
+
+    private void initMenu(MenuElement element, String parentName) {
+        element.init(parentName);
+        test.add(element.getId());
+        element.getElements().forEach(e -> initMenu(e,element.getId()));
     }
 
     public boolean incDepth() {
