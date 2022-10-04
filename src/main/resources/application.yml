@@ -42,7 +42,7 @@ menu:
                   actual: 50
                   min: 0
                   max: 100
-        - name: change-lenguage
+        - name: change-language
           text: Język
           value:
             text:
