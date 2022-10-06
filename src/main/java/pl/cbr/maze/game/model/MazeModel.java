@@ -1,13 +1,16 @@
 package pl.cbr.maze.game.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MazeModel {
 
-    private static MazeGenerator mazeGenerator;
+    private static Map<String,MazeGenerator> mazes = new HashMap<>();
 
-    public static MazeGenerator getMaze() {
-        if ( mazeGenerator==null ) {
-            mazeGenerator = new MazeGenerator(5,5);
+    public static MazeGenerator getMaze(String name) {
+        if ( !mazes.containsKey(name) ) {
+            mazes.put(name, new MazeGenerator(260,144));
         }
-        return mazeGenerator;
+        return mazes.get(name);
     }
 }

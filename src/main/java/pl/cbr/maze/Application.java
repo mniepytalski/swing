@@ -21,7 +21,7 @@ public class Application {
         frame.setResizable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setSize(800,600);
+        frame.setSize(1400,800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         return frame;

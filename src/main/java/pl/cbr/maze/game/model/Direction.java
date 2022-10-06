@@ -28,4 +28,8 @@ public enum Direction {
         this.dx = dx;
         this.dy = dy;
     }
+
+    public int getBit() {
+        return bit;
+    }
 }

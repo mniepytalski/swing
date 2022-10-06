@@ -12,9 +12,7 @@ public class MazeGfx implements Drawing {
 
     @Override
     public void doDrawing(Graphics g) {
-        g.setColor(Color.ORANGE);
-        g.drawRect(350, 350, 100, 100);
-        MazeGenerator mazeGenerator = MazeModel.getMaze();
+        MazeGenerator mazeGenerator = MazeModel.getMaze("game1");
         g.setColor(Color.BLACK);
         mazeGenerator.doDrawing(g);
     }
