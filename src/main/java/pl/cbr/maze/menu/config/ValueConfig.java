@@ -29,6 +29,9 @@ public class ValueConfig {
     }
 
     public void setActual(String storedState) {
+        if ( storedState==null ) {
+            return;
+        }
         if ( flag != null)
             flag.setActual(Boolean.parseBoolean(storedState));
         if ( digit != null)
