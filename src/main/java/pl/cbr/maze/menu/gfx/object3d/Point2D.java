@@ -1,4 +1,4 @@
-package pl.cbr.maze.object3d;
+package pl.cbr.maze.menu.gfx.object3d;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

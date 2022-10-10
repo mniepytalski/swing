@@ -1,4 +1,4 @@
-package pl.cbr.maze;
+package pl.cbr.maze.menu.gfx.object3d;
 
 import lombok.Data;
 import org.springframework.stereotype.Service;

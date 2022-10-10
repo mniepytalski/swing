@@ -1,7 +1,8 @@
-package pl.cbr.maze.object3d;
+package pl.cbr.maze.menu.gfx.object3d;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import pl.cbr.maze.Drawing;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
-public class OurObject implements Transform2D<OurObject>, PrintGraphics {
+public class OurObject implements Transform2D<OurObject>, Drawing {
     private List<Edge> edges;
     public OurObject() {
         edges = new ArrayList<>();
@@ -55,7 +56,8 @@ public class OurObject implements Transform2D<OurObject>, PrintGraphics {
         return new OurObject(edges.stream().map(o -> o.rotate(angle)).collect(Collectors.toList()));
     }
 
-    public void print(Graphics g) {
-        edges.forEach(edge -> edge.print(g));
+    @Override
+    public void doDrawing(Graphics g) {
+        edges.forEach(edge -> edge.doDrawing(g));
     }
 }

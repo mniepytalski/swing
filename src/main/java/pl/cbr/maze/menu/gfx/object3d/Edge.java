@@ -1,20 +1,17 @@
-package pl.cbr.maze.object3d;
+package pl.cbr.maze.menu.gfx.object3d;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Value;
+import pl.cbr.maze.Drawing;
 
 import java.awt.*;
 
 @Value
 @AllArgsConstructor
 @Data
-public class Edge implements Transform2D<Edge>, PrintGraphics {
+public class Edge implements Transform2D<Edge>, Drawing {
     Point2D x, y;
-
-    public void print(Graphics g) {
-        g.drawLine((int)x.getX(), (int)x.getY(), (int)y.getX(), (int)y.getY());
-    }
 
     @Override
     public Edge rotate(double angle) {
@@ -29,5 +26,10 @@ public class Edge implements Transform2D<Edge>, PrintGraphics {
     @Override
     public Edge scale(int scale) {
         return new Edge(x.scale(scale), y.scale(scale));
+    }
+
+    @Override
+    public void doDrawing(Graphics g) {
+        g.drawLine((int)x.getX(), (int)x.getY(), (int)y.getX(), (int)y.getY());
     }
 }

@@ -2,6 +2,7 @@ package pl.cbr.maze.menu.gfx;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.cbr.maze.Drawing;
 import pl.cbr.maze.menu.model.NavigationMode;
 import pl.cbr.maze.menu.config.*;
 import pl.cbr.maze.menu.model.MenuModel;
@@ -11,11 +12,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @AllArgsConstructor
-public class MenuSimplePrintEngine implements MenuPrintEngine {
+public class MenuSimplePrintEngine implements Drawing {
 
     private final MenuSimplePrintCfg menuCfg;
+    private final MenuModel menuModel;
 
-    public void doDrawing(Graphics g, MenuModel menuModel) {
+    public void doDrawing(Graphics g) {
         g.setFont(new Font(menuCfg.getFontName(), Font.BOLD, menuCfg.getFontSize()));
         AtomicInteger i = new AtomicInteger();
         menuModel.getActualParentElement().actualizePosition();

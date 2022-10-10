@@ -3,7 +3,6 @@ package pl.cbr.maze.menu;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.cbr.maze.GameState;
 import pl.cbr.maze.menu.config.ElementType;
 import pl.cbr.maze.menu.config.MenuElement;
 import pl.cbr.maze.menu.model.MenuModel;
@@ -12,19 +11,13 @@ import pl.cbr.maze.menu.model.NavigationMode;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import static pl.cbr.maze.SystemState.MENU;
-
 @Slf4j
 @Service
 @AllArgsConstructor
 public class MenuKeyAdapter extends KeyAdapter {
     private final MenuModel menuModel;
-    private final GameState gameState;
 
     public void keyPressed(KeyEvent e) {
-        if ( gameState.getSystemState()!=MENU ) {
-            return;
-        }
         MenuElement element = menuModel.getActualParentElement();
         MenuElement child  = menuModel.getActualMarkedElement();
         switch(e.getKeyCode()) {
