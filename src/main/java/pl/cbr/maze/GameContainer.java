@@ -8,8 +8,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.cbr.maze.game.GameKeyAdapter;
 import pl.cbr.maze.game.gfx.MazeGfx;
-import pl.cbr.maze.game.model.MazeGenerator;
-import pl.cbr.maze.game.model.MazeModel;
 import pl.cbr.maze.menu.MenuKeyAdapter;
 import pl.cbr.maze.menu.MenuLogic;
 import pl.cbr.maze.menu.MenuMessage;

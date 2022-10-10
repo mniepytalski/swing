@@ -42,7 +42,6 @@ public class MazeGenerator implements Drawing {
 
     @Override
     public void doDrawing(Graphics g) {
-
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 if ((maze[x][y] & Direction.N.getBit()) == 0 ) {
