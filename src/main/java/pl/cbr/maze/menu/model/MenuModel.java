@@ -63,7 +63,7 @@ public class MenuModel {
         if (e.isEmpty()) {
             return false;
         }
-        if (e.get().getElements().size() > 0) {
+        if (!e.get().getElements().isEmpty()) {
             depth++;
             return true;
         } else {
@@ -115,15 +115,8 @@ public class MenuModel {
 
     private void changeState(MenuElement element) {
         switch (element.getValueType()) {
-            case FLAG:
-                element.getValue().getFlag().invertValue();
-                break;
-            case DIGIT:
-            case NO_VALUE:
-                break;
-            case TEXT:
-                element.getValue().getText().markNextValue();
-                break;
+            case FLAG -> element.getValue().getFlag().invertValue();
+            case TEXT -> element.getValue().getText().markNextValue();
         }
     }
 }

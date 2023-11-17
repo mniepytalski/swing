@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 public class SystemManager extends KeyAdapter implements ApplicationListener<MenuMessage>, Drawing {
 
-    private List<FileRepository> components = new ArrayList<>();
-    private Map<SystemState, GameStage> stages = new HashMap<>();
+    private final List<FileRepository> components = new ArrayList<>();
+    private final Map<SystemState, GameStage> stages = new HashMap<>();
 
     private final GameState gameState;
 
@@ -58,7 +58,7 @@ public class SystemManager extends KeyAdapter implements ApplicationListener<Men
 
     @Override
     public void onApplicationEvent(MenuMessage event) {
-        if ("new-game".equals(event.getMessage())) {
+        if (Constants.NEW_GAME.equals(event.getMessage())) {
             gameState.setSystemState(SystemState.GAME);
         }
     }

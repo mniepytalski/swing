@@ -32,15 +32,9 @@ public class MenuSimplePrintEngine implements Drawing {
         }
         g.drawString(element.getText(), menuCfg.getStartX(), menuCfg.getStartY() + y * g.getFont().getSize());
         switch(element.getElementType()) {
-            case FLAG:
-                printFlag(g, element, y);
-                break;
-            case DIGIT:
-                printDigit(g, element, y);
-                break;
-            case TEXT:
-                printText(g, element, y);
-                break;
+            case FLAG -> printFlag(g, element, y);
+            case DIGIT -> printDigit(g, element, y);
+            case TEXT -> printText(g, element, y);
         }
     }
 

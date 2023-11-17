@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.cbr.maze.menu.MenuMessage;
 
-import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,9 +29,10 @@ public class GameContainer extends JPanel implements ActionListener, Drawing, Ap
         this.systemTimer = systemTimer;
         this.applicationEventPublisher = applicationEventPublisher;
         this.systemManager = systemManager;
+        initBoard();
     }
 
-    @PostConstruct
+
     private void initBoard() {
         setFocusable(true);
         systemTimer.init(this);
@@ -62,7 +62,7 @@ public class GameContainer extends JPanel implements ActionListener, Drawing, Ap
         this.event = event;
         log.info("message: {}", event);
 
-        if ("exit".equals(event.getMessage())) {
+        if (Constants.EXIT.equals(event.getMessage())) {
             systemManager.stopSystem();
             setVisible(false);
             System.exit(0);

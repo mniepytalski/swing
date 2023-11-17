@@ -1,18 +1,12 @@
 package pl.cbr.maze.menu.gfx.object3d;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Value;
+import lombok.*;
 
 @Value
-@AllArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
 @Data
 public class Point2D implements Transform2D<Point2D> {
     double x, y;
-
-    public static Point2D create(int x, int y) {
-        return new Point2D(x, y);
-    }
 
     public Point2D rotate(double angle) {
         double sin = Math.sin(angle);

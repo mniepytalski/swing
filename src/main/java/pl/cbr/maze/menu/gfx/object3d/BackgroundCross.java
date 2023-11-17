@@ -14,7 +14,7 @@ public class BackgroundCross implements Drawing {
 
     public void doDrawing(Graphics g) {
         OurObject ourObject = OurObject.create();
-        Point2D offset = new Point2D(200, 200);
+        Point2D offset = Point2D.of(200, 200);
 
         for ( int i=0; i<4; i++ ) {
             g.setColor(new Color(i*80, i*80, 255));

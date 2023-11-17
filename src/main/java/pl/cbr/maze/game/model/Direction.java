@@ -1,19 +1,20 @@
 package pl.cbr.maze.game.model;
 
+import lombok.Getter;
+
+@Getter
 public enum Direction {
     N(1, 0, -1),
     S(2, 0, 1),
     E(4, 1, 0),
     W(8, -1, 0);
 
-    public int bit;
-    public int dx;
-    public int dy;
-    public Direction opposite;
+    public final int bit;
+    public final int dx;
+    public final int dy;
 
-    public Direction getOpposite() {
-        return opposite;
-    }
+    @Getter
+    public Direction opposite;
 
     // use the static initializer to resolve forward references
     static {
@@ -27,9 +28,5 @@ public enum Direction {
         this.bit = bit;
         this.dx = dx;
         this.dy = dy;
-    }
-
-    public int getBit() {
-        return bit;
     }
 }
