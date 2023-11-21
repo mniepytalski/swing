@@ -1,6 +1,10 @@
 
-messages:
+application:
   title: MaZe
+  size:
+    x: 1400
+    y: 800
+
 
 menu:
   name: main

@@ -2,33 +2,37 @@ package pl.cbr.maze;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
-import pl.cbr.maze.game.MazeStage;
 import pl.cbr.maze.menu.MenuMessage;
-import pl.cbr.maze.menu.MenuStage;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SystemManager extends KeyAdapter implements ApplicationListener<MenuMessage>, Drawing {
 
     private final List<FileRepository> components = new ArrayList<>();
-    private final Map<SystemState, GameStage> stages = new HashMap<>();
+    private final Map<String, ApplicationStage> stages = new HashMap<>();
 
-    private final GameState gameState;
+    private final ApplicationState applicationState;
 
-    public SystemManager(GameState gameState, MenuStage menuStage, MazeStage mazeStage) {
-        this.gameState = gameState;
-        addStage(SystemState.MENU, menuStage);
-        registerComponent(menuStage);
-        addStage(SystemState.GAME, mazeStage);
+    public SystemManager(ApplicationState applicationState) {
+        this.applicationState = applicationState;
     }
 
-    public void addStage(SystemState state, GameStage stage) {
-        stages.put(state, stage);
+    public void addToStage(ApplicationStage stage) {
+        addStage(stage);
+        if (stage instanceof FileRepository) {
+            registerComponent((FileRepository)stage);
+        }
+    }
+
+    public void addStage(ApplicationStage stage) {
+        stages.put(stage.getName(), stage);
     }
 
     public void registerComponent(FileRepository resource) {
@@ -45,21 +49,23 @@ public class SystemManager extends KeyAdapter implements ApplicationListener<Men
 
     @Override
     public void doDrawing(Graphics g) {
-        if ( stages.containsKey(gameState.getSystemState()) ) {
-            stages.get(gameState.getSystemState()).doDrawing(g);
+
+        if ( stages.containsKey(applicationState.getSystemState().name()) ) {
+            stages.get(applicationState.getSystemState().name()).doDrawing(g);
         }
     }
 
     public void keyPressed(KeyEvent e) {
-        if ( stages.containsKey(gameState.getSystemState()) ) {
-            stages.get(gameState.getSystemState()).keyPressed(e);
+        if ( stages.containsKey(applicationState.getSystemState().name()) ) {
+            stages.get(applicationState.getSystemState().name()).keyPressed(e);
         }
     }
 
     @Override
     public void onApplicationEvent(MenuMessage event) {
         if (Constants.NEW_GAME.equals(event.getMessage())) {
-            gameState.setSystemState(SystemState.GAME);
+            applicationState.setSystemState(SystemState.MAIN);
+            applicationState.setStages("MAIN");
         }
     }
 }

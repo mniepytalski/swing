@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.cbr.maze.FileRepository;
-import pl.cbr.maze.GameStage;
+import pl.cbr.maze.ApplicationStage;
 import pl.cbr.maze.utils.PropertiesUtil;
 import pl.cbr.maze.menu.gfx.MenuSimplePrintEngine;
 import pl.cbr.maze.menu.model.MenuModel;
@@ -17,7 +17,7 @@ import java.util.Properties;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class MenuStage extends GameStage implements FileRepository {
+public class MenuStage extends ApplicationStage implements FileRepository {
 
     private final MenuModel menuModel;
     private final MenuKeyAdapter keyAdapter;
@@ -26,6 +26,10 @@ public class MenuStage extends GameStage implements FileRepository {
     private final PropertiesUtil propertiesUtil;
 
     private final static String fileName = "menu.properties";
+
+    public String getName() {
+        return "MENU";
+    }
 
     @Override
     public void doDrawing(Graphics g) {
