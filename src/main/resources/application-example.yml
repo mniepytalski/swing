@@ -1,0 +1,59 @@
+
+application:
+  title: MaZe
+  size:
+    x: 1400
+    y: 800
+
+menu:
+  name: main
+  elements:
+    - name: new-game
+      text: Nowa gra
+    - name: save-game
+      text: Zapisz grę
+    - name: load-game
+      text: Wczytaj grę
+    - name: settings
+      text: Ustawienia
+      description:
+        title: opis
+        text: To sa ustawienia
+      elements:
+        - name: gfx
+          text: Grafika
+          elements:
+            - name: full-screen
+              text: Full Screen
+              value:
+                flag:
+                  actual: false
+        - name: music
+          text: Muzyka
+          elements:
+            - name: sound-volume
+              text: Głośność muzyki
+              value:
+                digit:
+                  actual: 50
+                  min: 0
+                  max: 100
+            - name: sfx-volume
+              text: Głośność efektów
+              value:
+                digit:
+                  actual: 50
+                  min: 0
+                  max: 100
+        - name: change-language
+          text: Język
+          value:
+            text:
+              actual: eng
+              list:
+              - name: pol
+                text: Polski
+              - name: eng
+                text: English
+    - name: exit
+      text: Wyjście
